@@ -10,4 +10,4 @@ services:
       - key: TINYFISH_API_KEY
         sync: false          # paste the key in the Render dashboard; never commit it
       - key: AGENT_ENABLED
-        value: "false"
+        sync: false          # Render asks for it: "true" = TinyFish Agent fallback on ($0.016/step), "false" = off
