@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-labelledby="t">
+  <title id="t">Fingerprint</title>
+  <rect width="64" height="64" rx="16" fill="#F26B57"/>
+  <!-- ridges -->
+  <g fill="none" stroke="#FF9E8A" stroke-width="2.6" stroke-linecap="round">
+    <path d="M14 40 C10 22 22 9 34 10 C46 11 53 22 50 38"/>
+    <path d="M19 44 C16 28 24 17 33 17 C42 17 47 26 45 40" stroke-dasharray="30 4 60"/>
+  </g>
+  <!-- googly eyes -->
+  <circle cx="25" cy="34" r="7.5" fill="#FFFFFF" stroke="#1F1F2B" stroke-width="2"/>
+  <circle cx="40" cy="34" r="7.5" fill="#FFFFFF" stroke="#1F1F2B" stroke-width="2"/>
+  <circle cx="26.5" cy="35.5" r="4.2" fill="#1F1F2B"/>
+  <circle cx="41.5" cy="35.5" r="4.2" fill="#1F1F2B"/>
+  <circle cx="27.8" cy="34" r="1.4" fill="#FFFFFF"/>
+  <circle cx="42.8" cy="34" r="1.4" fill="#FFFFFF"/>
+  <!-- smile -->
+  <path d="M29 46 Q32.5 49.5 36 46" fill="none" stroke="#1F1F2B" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

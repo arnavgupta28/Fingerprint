@@ -1,0 +1,18 @@
+{
+  "_note": "Copy to demo/persona.json (git-ignored). Only scan someone who agreed to be scanned AND shown in the video.",
+  "consented": false,
+  "level": "standard",
+  "full_name": "First Last",
+  "country": "IN",
+  "phone": "98765 43210",
+  "city": "Pune",
+  "birth_year": "",
+  "email": "",
+  "usernames": "",
+  "state": "",
+  "middle_name": "",
+  "aliases": "",
+  "employer": "",
+  "school": "",
+  "past_cities": ""
+}

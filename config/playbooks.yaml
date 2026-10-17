@@ -1,0 +1,64 @@
+# How to remove or lock down each kind of finding. Picked by domain group first, then by data type.
+
+peoplefinder_optout:
+  title: Remove your listing from a people-finder site
+  steps:
+    - Open the listing using the source link.
+    - Find the site's "Opt out", "Remove my info" or "Privacy" page (usually in the footer).
+    - Submit the removal request for this exact listing URL.
+    - Re-check in 7 days. Brokers often re-list, so scan again monthly.
+breach_response:
+  title: Secure accounts exposed in a data breach
+  steps:
+    - Change the password on the breached site and anywhere you reused it.
+    - Turn on two-factor authentication (2FA), using an authenticator app rather than SMS.
+    - Use a password manager so every site gets a unique password.
+    - Watch for phishing emails that mention this service.
+social_lockdown:
+  title: Lock down a social profile
+  steps:
+    - Set the profile to private / friends-only.
+    - Remove phone number, email and exact location from the bio.
+    - Hide your friends/followers list and tagged photos.
+    - Turn off "find me by phone number / email".
+professional_visibility:
+  title: Limit what your professional profile shows publicly
+  steps:
+    - Open your profile's public visibility settings.
+    - Hide contact info (email, phone) from non-connections.
+    - Consider hiding your exact city and your connections list.
+code_privacy:
+  title: Keep your email private on code platforms
+  steps:
+    - Turn on "Keep my email address private" (GitHub → Settings → Emails).
+    - Use the provided noreply address for commits.
+    - Remove personal email/phone from READMEs and package metadata.
+google_results_removal:
+  title: Ask Google to remove your contact details
+  steps:
+    - Go to Google's "Results about you" tool (myactivity.google.com/results-about-you).
+    - Request removal of results that show your phone, email or home address.
+    - You'll get an email when Google acts on it.
+old_document:
+  title: Take down an old document (CV, PDF, list)
+  steps:
+    - Contact the site owner and ask them to remove or redact your details.
+    - Once removed, use Google's "Remove outdated content" tool so the cached copy disappears.
+    - For your own uploads, delete the file or make it private.
+news_mention:
+  title: Old news or public mention
+  steps:
+    - Usually low risk and often can't be removed.
+    - If it reveals contact details or your address, ask the publisher to redact them.
+    - Under India's DPDP Act / EU GDPR you can request erasure of personal data that is no longer needed.
+gravatar_privacy:
+  title: Review your public Gravatar profile
+  steps:
+    - Sign in at gravatar.com and review what your public profile shows.
+    - Remove your real name, location and links you don't want tied to your email.
+generic:
+  title: Reduce this exposure
+  steps:
+    - Open the source and check what it shows.
+    - If it's your account, edit or delete the details.
+    - If it's someone else's site, use their contact or privacy page to request removal.

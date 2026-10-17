@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fingerprint</title>
+  <meta name="description" content="See what the internet knows about you, and clean it up.">
+  <link rel="icon" href="/assets/logo/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Rubik:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<main class="phone">
+
+  <!-- 1. Splash -->
+  <section class="screen splash" data-screen="splash">
+    <img class="smudge bob" src="/assets/mascot/smudge.svg" alt="Smudge, a friendly fingerprint with a magnifying glass" width="200" height="200">
+    <h1 class="wordmark">Fingerprint</h1>
+    <p class="tagline">See what the internet knows about you, before someone else does.</p>
+    <button class="btn btn-cream" data-go="hello">Let's go</button>
+  </section>
+
+  <!-- 2. Hello -->
+  <section class="screen" data-screen="hello" hidden>
+    <img class="smudge bob" src="/assets/mascot/smudge.svg" alt="" width="170" height="170">
+    <h2>Hi! I'm Smudge.</h2>
+    <p class="muted">What's your name?</p>
+    <form id="name-form" class="stack" novalidate>
+      <input id="full_name" name="full_name" class="input" placeholder="First and last name" autocomplete="name" required minlength="3" maxlength="80">
+      <p class="error" id="name-error" hidden></p>
+      <button class="btn">Continue</button>
+    </form>
+  </section>
+
+  <!-- 3. Level -->
+  <section class="screen" data-screen="level" hidden>
+    <button class="back" data-go="hello" aria-label="Back">‹ Back</button>
+    <h2 id="level-title">How much do you want to share?</h2>
+    <p class="muted">More detail means a sharper search. It's always your choice.</p>
+    <div class="tiles" role="radiogroup" aria-label="Detail level">
+      <button class="tile t-blue" role="radio" data-level="light">
+        <span class="tile-emoji">🌱</span><span class="tile-title">Light</span>
+        <span class="tile-sub">Name, phone, city</span>
+      </button>
+      <button class="tile t-purple" role="radio" data-level="standard">
+        <span class="tile-emoji">🔎</span><span class="tile-title">Standard</span>
+        <span class="tile-sub">+ birth year, email, usernames</span>
+      </button>
+      <button class="tile t-orange" role="radio" data-level="deep">
+        <span class="tile-emoji">🧬</span><span class="tile-title">Deep</span>
+        <span class="tile-sub">+ other names, work, school</span>
+      </button>
+      <div class="tile t-green tile-info">
+        <span class="tile-emoji">🔒</span><span class="tile-title">Private</span>
+        <span class="tile-sub">Nothing is stored</span>
+      </div>
+    </div>
+    <p class="level-help" id="level-help">Pick a level to see what we'll look for.</p>
+  </section>
+
+  <!-- 4. Details -->
+  <section class="screen" data-screen="details" hidden>
+    <button class="back" data-go="level" aria-label="Back">‹ Back</button>
+    <h2>A few details</h2>
+    <p class="muted" id="details-sub">Name, phone and city are required. Everything else is up to you.</p>
+    <form id="details-form" class="stack" novalidate>
+      <fieldset class="group">
+        <legend>Required <span class="legend-sub">so we can tell you apart from people with the same name</span></legend>
+        <label class="field">Full name <input class="input" name="full_name" required maxlength="80" autocomplete="name"></label>
+        <div class="field">Phone number
+          <div class="row">
+            <select class="input select" name="country" aria-label="Country" autocomplete="country">
+              <option value="IN" data-cc="91" selected>🇮🇳 +91</option>
+              <option value="US" data-cc="1">🇺🇸 +1</option>
+              <option value="GB" data-cc="44">🇬🇧 +44</option>
+              <option value="CA" data-cc="1">🇨🇦 +1</option>
+              <option value="AU" data-cc="61">🇦🇺 +61</option>
+              <option value="AE" data-cc="971">🇦🇪 +971</option>
+              <option value="SG" data-cc="65">🇸🇬 +65</option>
+              <option value="DE" data-cc="49">🇩🇪 +49</option>
+              <option value="FR" data-cc="33">🇫🇷 +33</option>
+            </select>
+            <input class="input" name="phone" type="tel" required placeholder="98765 43210" maxlength="20" autocomplete="tel-national" aria-label="Phone number">
+          </div>
+        </div>
+        <label class="field">City you live in <input class="input" name="city" required placeholder="e.g. Pune" maxlength="60" autocomplete="address-level2"></label>
+      </fieldset>
+
+      <fieldset class="group" data-levels="standard deep">
+        <legend>Optional <span class="legend-sub">each one sharpens the match</span></legend>
+        <label class="field">Birth year <span class="hint">matches the age people-finder sites show</span>
+          <input class="input" name="birth_year" type="number" inputmode="numeric" min="1920" placeholder="e.g. 1996"></label>
+        <label class="field">Email <span class="hint">also checked against data breaches</span>
+          <input class="input" name="email" type="email" placeholder="you@example.com" maxlength="120" autocomplete="email"></label>
+        <label class="field">Usernames <span class="hint">up to 3, comma-separated</span>
+          <input class="input" name="usernames" placeholder="asharao, asha_designs" maxlength="130" autocomplete="username"></label>
+        <label class="field">State / region <input class="input" name="state" placeholder="e.g. Maharashtra" maxlength="60" autocomplete="address-level1"></label>
+      </fieldset>
+
+      <fieldset class="group" data-levels="deep">
+        <legend>Deep extras <span class="legend-sub">optional</span></legend>
+        <label class="field">Middle name <input class="input" name="middle_name" maxlength="40" autocomplete="additional-name"></label>
+        <label class="field">Other names <span class="hint">maiden name, nickname · comma-separated</span>
+          <input class="input" name="aliases" placeholder="Asha Sharma" maxlength="130"></label>
+        <label class="field">Workplace <input class="input" name="employer" placeholder="Company you work at" maxlength="80" autocomplete="organization"></label>
+        <label class="field">School / college <input class="input" name="school" placeholder="Where you studied" maxlength="100"></label>
+        <label class="field">Past cities <span class="hint">up to 3, comma-separated</span>
+          <input class="input" name="past_cities" placeholder="Mumbai, Bengaluru" maxlength="130"></label>
+      </fieldset>
+
+      <div class="meter" aria-live="polite">
+        <div class="meter-top"><span>Match accuracy</span><b id="meter-label">Basic</b></div>
+        <div class="meter-bar"><i id="meter-fill"></i></div>
+        <p class="hint" id="meter-tip">Add your birth year or email for a sharper match.</p>
+      </div>
+
+      <div class="note">
+        <strong>Smudge's promise</strong>
+        <ul>
+          <li>We only read public pages. No logins, no buying data.</li>
+          <li>Your phone is searched as typed on public pages; it is never shown in full.</li>
+          <li>Nothing is saved. Your scan is deleted within 30 minutes.</li>
+          <li data-levels="standard deep">Your email is checked against a public breach database (XposedOrNot).</li>
+        </ul>
+      </div>
+      <label class="consent"><input type="checkbox" id="consent"> <span>I'm searching for <strong>myself</strong>, not someone else.</span></label>
+      <p class="error" id="details-error" hidden></p>
+      <button class="btn" id="start-btn">Start scan</button>
+    </form>
+  </section>
+
+  <!-- 5. Scanning -->
+  <section class="screen" data-screen="scan" hidden>
+    <img class="smudge sniff" src="/assets/mascot/smudge.svg" alt="" width="150" height="150">
+    <h2 id="stage-label">Getting ready…</h2>
+    <div class="ring-row">
+      <div class="ring" id="scan-ring" style="--p:0"><span id="scan-pct">0%</span></div>
+      <div>
+        <div class="big-count"><span id="crumb-count">0</span> crumbs found</div>
+        <p class="muted small" id="scan-sub">Smudge is sniffing around the web.</p>
+      </div>
+    </div>
+    <ul class="sources" id="source-list" aria-live="polite"></ul>
+  </section>
+
+  <!-- 6. Report -->
+  <section class="screen" data-screen="report" hidden>
+    <div class="hero">
+      <div class="hero-text">
+        <p class="hero-kicker">Your fingerprint</p>
+        <h2 class="hero-score"><span id="score">0</span><small>/100</small></h2>
+        <p class="hero-label" id="score-label">Low exposure</p>
+      </div>
+      <img class="smudge hero-smudge" src="/assets/mascot/smudge.svg" alt="" width="110" height="110">
+    </div>
+    <p class="summary" id="summary"></p>
+    <div class="pills">
+      <button class="pill p-red" data-risk="red"><b id="c-red">0</b> high</button>
+      <button class="pill p-amber" data-risk="amber"><b id="c-amber">0</b> medium</button>
+      <button class="pill p-green" data-risk="green"><b id="c-green">0</b> low</button>
+    </div>
+    <div class="chips" id="category-chips"></div>
+    <p class="partial" id="partial-note" hidden>Some sources couldn't be checked this time, so results may be incomplete.</p>
+    <ul class="findings" id="findings"></ul>
+    <details class="checked">
+      <summary>What we checked</summary>
+      <ul class="sources" id="report-sources"></ul>
+    </details>
+    <div class="actions">
+      <button class="btn btn-ghost" id="again-btn">Scan again</button>
+      <button class="btn btn-dark" id="delete-btn">Delete my data now</button>
+    </div>
+    <p class="muted small center">Fingerprint shows public information only. It isn't legal advice.</p>
+  </section>
+
+</main>
+<template id="source-tpl">
+  <li class="finding">
+    <button class="finding-head" aria-expanded="false">
+      <span class="cat-icon"></span>
+      <span class="finding-main">
+        <span class="finding-label"></span>
+        <span class="finding-sub"></span>
+        <span class="items"></span>
+      </span>
+      <span class="conf-badge"><b class="conf-pct"></b><small class="conf-word"></small></span>
+    </button>
+    <div class="finding-body" hidden>
+      <div class="why"></div>
+      <ul class="evidence-list"></ul>
+      <a class="source" target="_blank" rel="noopener noreferrer nofollow"></a>
+      <div class="verdict">
+        <span>Is this you?</span>
+        <button class="chip-btn" data-verdict="me">Yes, me</button>
+        <button class="chip-btn" data-verdict="not_me">Not me</button>
+      </div>
+      <div class="fix">
+        <p class="fix-title"></p>
+        <ol class="fix-steps"></ol>
+      </div>
+    </div>
+  </li>
+</template>
+<script src="/static/app.js" type="module"></script>
+</body>
+</html>

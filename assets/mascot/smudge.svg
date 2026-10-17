@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-labelledby="t">
+  <title id="t">Smudge, the Fingerprint mascot</title>
+  <defs>
+    <clipPath id="smudge-body">
+      <path d="M112 34 C160 34 186 78 186 128 C186 180 154 210 112 210 C70 210 38 180 38 128 C38 78 64 34 112 34 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- shadow -->
+  <ellipse cx="114" cy="224" rx="60" ry="7" fill="#1F1F2B" opacity="0.10"/>
+
+  <!-- feet -->
+  <ellipse cx="90" cy="210" rx="17" ry="9" fill="#E0503B"/>
+  <ellipse cx="136" cy="210" rx="17" ry="9" fill="#E0503B"/>
+
+  <!-- waving arm (behind body) -->
+  <path d="M48 128 Q26 116 26 90" fill="none" stroke="#E0503B" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- body -->
+  <path d="M112 34 C160 34 186 78 186 128 C186 180 154 210 112 210 C70 210 38 180 38 128 C38 78 64 34 112 34 Z" fill="#F26B57"/>
+
+  <!-- fingerprint ridges -->
+  <g clip-path="url(#smudge-body)" fill="none" stroke="#FF9E8A" stroke-width="4.5" stroke-linecap="round">
+    <ellipse cx="112" cy="86" rx="11" ry="15"/>
+    <ellipse cx="112" cy="90" rx="23" ry="29" stroke-dasharray="118 16"/>
+    <ellipse cx="112" cy="95" rx="35" ry="43" stroke-dasharray="70 14 150 12"/>
+    <ellipse cx="112" cy="100" rx="47" ry="57" stroke-dasharray="200 18 90 14"/>
+    <ellipse cx="112" cy="106" rx="59" ry="71" stroke-dasharray="130 16 220 12"/>
+    <ellipse cx="112" cy="112" rx="71" ry="85" stroke-dasharray="260 20 160 16"/>
+  </g>
+
+  <!-- face patch keeps the face readable -->
+  <ellipse cx="112" cy="140" rx="50" ry="34" fill="#F26B57"/>
+
+  <!-- lashes -->
+  <g stroke="#1F1F2B" stroke-width="3" stroke-linecap="round">
+    <line x1="82" y1="113" x2="78" y2="105"/>
+    <line x1="91" y1="110" x2="91" y2="101"/>
+    <line x1="100" y1="113" x2="104" y2="105"/>
+    <line x1="124" y1="113" x2="120" y2="105"/>
+    <line x1="133" y1="110" x2="133" y2="101"/>
+    <line x1="142" y1="113" x2="146" y2="105"/>
+  </g>
+
+  <!-- googly eyes -->
+  <circle cx="91" cy="132" r="17" fill="#FFFFFF" stroke="#1F1F2B" stroke-width="3"/>
+  <circle cx="133" cy="132" r="17" fill="#FFFFFF" stroke="#1F1F2B" stroke-width="3"/>
+  <circle cx="94" cy="135" r="10" fill="#1F1F2B"/>
+  <circle cx="136" cy="135" r="10" fill="#1F1F2B"/>
+  <circle cx="97" cy="131" r="3.5" fill="#FFFFFF"/>
+  <circle cx="139" cy="131" r="3.5" fill="#FFFFFF"/>
+
+  <!-- smile -->
+  <path d="M103 160 Q112 168 121 160" fill="none" stroke="#1F1F2B" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- arm holding the magnifier -->
+  <path d="M180 148 Q192 154 194 166" fill="none" stroke="#E0503B" stroke-width="13" stroke-linecap="round"/>
+
+  <!-- magnifying glass -->
+  <line x1="200" y1="180" x2="224" y2="206" stroke="#1F1F2B" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="188" cy="164" r="24" fill="#FFF5EA" fill-opacity="0.85" stroke="#1F1F2B" stroke-width="7"/>
+  <path d="M176 154 Q180 147 188 146" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

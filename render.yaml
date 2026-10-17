@@ -1,0 +1,13 @@
+# Render Blueprint: free web service. Dashboard → New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: fingerprint
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: TINYFISH_API_KEY
+        sync: false          # paste the key in the Render dashboard; never commit it
+      - key: AGENT_ENABLED
+        value: "false"

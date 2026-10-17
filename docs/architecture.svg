@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420" font-family="Rubik, Helvetica, Arial, sans-serif">
+  <title>Fingerprint architecture</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#E0503B"/>
+    </marker>
+    <style>
+      .box{fill:#FFFFFF;stroke:#F26B57;stroke-width:2;rx:10}
+      .t{font-size:14px;font-weight:700;fill:#1E1B2E}
+      .s{font-size:11px;fill:#55516B}
+      .ln{stroke:#E0503B;stroke-width:2;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="960" height="420" fill="#FFF5EA"/>
+  <text x="24" y="34" font-size="20" font-weight="700" fill="#1E1B2E">Fingerprint: scan pipeline</text>
+
+  <!-- user -->
+  <rect class="box" x="24" y="70" width="140" height="92"/>
+  <text class="t" x="94" y="98" text-anchor="middle">User</text>
+  <text class="s" x="94" y="118" text-anchor="middle">Level: Light/Std/Deep</text>
+  <text class="s" x="94" y="134" text-anchor="middle">Details + consent ✔</text>
+  <text class="s" x="94" y="150" text-anchor="middle">Web app (HTML/JS)</text>
+
+  <!-- api -->
+  <rect class="box" x="204" y="70" width="140" height="92"/>
+  <text class="t" x="274" y="98" text-anchor="middle">FastAPI</text>
+  <text class="s" x="274" y="118" text-anchor="middle">/scan  /stream</text>
+  <text class="s" x="274" y="134" text-anchor="middle">/report  /verdict</text>
+  <text class="s" x="274" y="150" text-anchor="middle">In-memory · 30 min TTL</text>
+
+  <path class="ln" d="M164 116 H202"/>
+
+  <!-- pipeline row -->
+  <rect class="box" x="24" y="210" width="140" height="84"/>
+  <text class="t" x="94" y="236" text-anchor="middle">① Plan</text>
+  <text class="s" x="94" y="256" text-anchor="middle">Rule-based queries</text>
+
+  <rect class="box" x="180" y="210" width="140" height="84"/>
+  <text class="t" x="250" y="236" text-anchor="middle">② Search</text>
+  <text class="s" x="250" y="256" text-anchor="middle">TinyFish Search (free)</text>
+  <text class="s" x="250" y="272" text-anchor="middle">+ breaches · usernames</text>
+
+  <rect class="box" x="336" y="210" width="140" height="84"/>
+  <text class="t" x="406" y="236" text-anchor="middle">③ Fetch</text>
+  <text class="s" x="406" y="256" text-anchor="middle">TinyFish Fetch (free)</text>
+  <text class="s" x="406" y="272" text-anchor="middle">→ Agent (opt-in, paid)</text>
+
+  <rect class="box" x="492" y="210" width="140" height="84"/>
+  <text class="t" x="562" y="236" text-anchor="middle">④ Extract</text>
+  <text class="s" x="562" y="256" text-anchor="middle">Rules near your name</text>
+  <text class="s" x="562" y="272" text-anchor="middle">+ evidence quote</text>
+
+  <rect class="box" x="648" y="210" width="140" height="84"/>
+  <text class="t" x="718" y="236" text-anchor="middle">⑤ Match</text>
+  <text class="s" x="718" y="256" text-anchor="middle">"Is this you?"</text>
+  <text class="s" x="718" y="272" text-anchor="middle">confidence 0–1</text>
+
+  <rect class="box" x="804" y="210" width="140" height="84"/>
+  <text class="t" x="874" y="236" text-anchor="middle">⑥ Score</text>
+  <text class="s" x="874" y="256" text-anchor="middle">Exposure 0–100</text>
+  <text class="s" x="874" y="272" text-anchor="middle">+ removal playbook</text>
+
+  <path class="ln" d="M274 162 V186 H94 V208"/>
+  <path class="ln" d="M164 252 H178"/>
+  <path class="ln" d="M320 252 H334"/>
+  <path class="ln" d="M476 252 H490"/>
+  <path class="ln" d="M632 252 H646"/>
+  <path class="ln" d="M788 252 H802"/>
+
+  <!-- report -->
+  <rect class="box" x="804" y="70" width="140" height="92"/>
+  <text class="t" x="874" y="98" text-anchor="middle">Report</text>
+  <text class="s" x="874" y="118" text-anchor="middle">🟢🟡🔴 findings</text>
+  <text class="s" x="874" y="134" text-anchor="middle">Masked values</text>
+  <text class="s" x="874" y="150" text-anchor="middle">Source links</text>
+  <path class="ln" d="M874 210 V164"/>
+  <!-- feedback loop -->
+  <path class="ln" d="M804 100 H760 Q718 100 718 140 V208" stroke-dasharray="5 4"/>
+  <text class="s" x="624" y="92">yes / not me → re-score</text>
+
+  <!-- config -->
+  <rect x="384" y="70" width="220" height="92" rx="10" fill="#FFFFFF" stroke="#F4A93B" stroke-width="2"/>
+  <text class="t" x="494" y="98" text-anchor="middle">Config (YAML)</text>
+  <text class="s" x="494" y="118" text-anchor="middle">config.yaml · playbooks.yaml</text>
+  <text class="s" x="494" y="134" text-anchor="middle">sources · brokers · domains</text>
+  <text class="s" x="494" y="150" text-anchor="middle">Budget cap per scan</text>
+
+  <!-- guardrails -->
+  <rect x="24" y="318" width="920" height="78" rx="10" fill="#FFF4F4" stroke="#DC2626" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="40" y="344" font-size="14" font-weight="700" fill="#B91C1C">Guardrails (every step)</text>
+  <text class="s" x="40" y="366">Self-search consent · rate limits / no bulk · nothing stored · mask phone/address · PII-redacted logs · public pages only · robots.txt</text>
+  <text class="s" x="40" y="384">Reliability: retries + backoff · per-source circuit breaker · snippet fallback when a page is blocked · partial results on budget hit</text>
+</svg>

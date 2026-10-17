@@ -1,0 +1,65 @@
+cloud-architecture-diagram
+// Fingerprint: how one scan works.
+// Open in VS Code with the Eraser extension, then use Export → Export to SVG and save as docs/architecture.svg
+
+colorMode pastel
+styleMode shadow
+typeface clean
+direction right
+
+User [icon: user, color: "#F26B57"]
+
+Web app [icon: smartphone, color: "#F26B57"] {
+  Level picker [icon: sliders]
+  Live scan view [icon: activity]
+  Report [icon: bar-chart-2]
+}
+
+FastAPI service [icon: server, color: "#3E8EDE"] {
+  Guardrails [icon: shield, color: "#E5484D"]
+  Session store [icon: clock]
+  Progress stream [icon: radio]
+}
+
+Scan pipeline [icon: cpu, color: "#8C7AE6"] {
+  Plan queries [icon: list]
+  Match to you [icon: user-check]
+  Extract details [icon: filter]
+  Score and fixes [icon: award]
+}
+
+TinyFish [icon: globe, color: "#F4A93B"] {
+  Search API [icon: search]
+  Fetch API [icon: file-text]
+  Agent API [icon: zap]
+}
+
+Free public checks [icon: unlock, color: "#5DCAA0"] {
+  XposedOrNot breaches [icon: alert-triangle]
+  Gravatar [icon: image]
+  Username probes [icon: at-sign]
+}
+
+Config YAML [icon: settings, color: "#66B032"]
+
+User > Level picker: name + chosen details
+Level picker > Guardrails: start scan with consent
+Guardrails > Plan queries: rate limit, level scope
+Plan queries > Search API: 9 to 24 searches, free
+Search API > Match to you: titles, snippets, URLs
+Match to you > Fetch API: top 20 pages, free
+Fetch API > Extract details: page text
+Fetch API --> Agent API: blocked people-finder only, opt-in, paid
+Agent API --> Extract details: structured JSON
+Plan queries > XposedOrNot breaches, Gravatar, Username probes: Standard and Deep only
+XposedOrNot breaches > Score and fixes
+Gravatar > Score and fixes
+Username probes > Score and fixes
+Extract details > Score and fixes: masked values + evidence
+Score and fixes > Session store: in memory, 30 min TTL
+Session store > Progress stream
+Progress stream > Live scan view: live events
+Session store > Report: findings, score, fixes
+Report > Session store: is this you, yes or not me
+Config YAML --> Plan queries
+Config YAML --> Score and fixes

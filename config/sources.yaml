@@ -1,0 +1,26 @@
+# Where Fingerprint looks. Add a platform or domain here — no code changes needed.
+
+# Username probes: free public endpoints, checked directly (not via TinyFish).
+# exists_when: status_200 | json_nonempty | json_not_null
+username_platforms:
+  - { id: github,   name: GitHub,       url: "https://api.github.com/users/{username}",                       profile: "https://github.com/{username}",          exists_when: status_200,    category: code }
+  - { id: gitlab,   name: GitLab,       url: "https://gitlab.com/api/v4/users?username={username}",          profile: "https://gitlab.com/{username}",          exists_when: json_nonempty, category: code }
+  - { id: reddit,   name: Reddit,       url: "https://www.reddit.com/user/{username}/about.json",            profile: "https://www.reddit.com/user/{username}", exists_when: status_200,    category: social }
+  - { id: hn,       name: Hacker News,  url: "https://hacker-news.firebaseio.com/v0/user/{username}.json",   profile: "https://news.ycombinator.com/user?id={username}", exists_when: json_not_null, category: social }
+  - { id: devto,    name: DEV,          url: "https://dev.to/api/users/by_username?url={username}",          profile: "https://dev.to/{username}",              exists_when: status_200,    category: code }
+  - { id: keybase,  name: Keybase,      url: "https://keybase.io/_/api/1.0/user/lookup.json?usernames={username}", profile: "https://keybase.io/{username}", exists_when: keybase,       category: social }
+
+# How we classify a result by its domain.
+domain_groups:
+  professional: [linkedin.com, naukri.com, indeed.com, glassdoor.com, angel.co, wellfound.com, crunchbase.com]
+  social: [instagram.com, facebook.com, x.com, twitter.com, threads.net, reddit.com, youtube.com, tiktok.com, pinterest.com, quora.com, medium.com, tumblr.com, snapchat.com]
+  code: [github.com, gitlab.com, bitbucket.org, stackoverflow.com, npmjs.com, pypi.org, dev.to, kaggle.com, huggingface.co]
+  broker: [truecaller.com, justdial.com, spokeo.com, whitepages.com, beenverified.com, radaris.com, peekyou.com, fastpeoplesearch.com, truepeoplesearch.com, mylife.com, intelius.com, zabasearch.com, thatsthem.com, nuwber.com, contactout.com, rocketreach.co, zoominfo.com, signalhire.com, lusha.com, apollo.io, peoplelooker.com, instantcheckmate.com]
+  news: [timesofindia.indiatimes.com, thehindu.com, hindustantimes.com, indianexpress.com, ndtv.com, bbc.com, nytimes.com, medium.com]
+  documents: [scribd.com, slideshare.net, issuu.com, docs.google.com, drive.google.com, academia.edu, researchgate.net]
+
+# Pages that need a login: we keep the search snippet and never fetch them.
+snippet_only_domains: [linkedin.com, facebook.com, instagram.com, x.com, twitter.com, threads.net, tiktok.com, snapchat.com, truecaller.com]
+
+# Never fetch or report (pure noise / our own APIs).
+ignore_domains: [tinyfish.ai, google.com, bing.com, wikipedia.org]

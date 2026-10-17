@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest==9.1.1
+# demo video recorder (demo/record_demo.py)
+playwright
+imageio-ffmpeg

@@ -1,0 +1,28 @@
+# Fingerprint runtime settings (non-secret). Secrets live in .env / the host's env vars.
+# Any top-level key can be overridden by an env var of the same name in UPPER_CASE.
+
+session_ttl_minutes: 30     # scans are deleted from memory after this
+scans_per_hour_per_ip: 10   # anti-abuse rate limit (also protects the free daily allowance)
+
+search:
+  location: IN              # fallback only: each scan searches in the country the user picks
+  language: en
+  concurrency: 5            # parallel search calls
+
+budget:                     # per scan; the scan returns partial results when a cap is hit
+  max_queries: 28           # TinyFish Search: free within daily allowance
+  max_fetch_urls: 20        # TinyFish Fetch: free within daily allowance (10 URLs per call)
+  agent_enabled: false      # TinyFish Agent draws from the wallet ($0.016/step), so it's opt-in
+  max_agent_runs: 1
+  agent_max_seconds: 60
+  agent_cost_per_step_usd: 0.016
+
+timeouts_seconds:
+  search: 10
+  fetch: 150
+  agent: 120
+  probe: 8                  # username / breach / gravatar checks
+
+circuit_breaker:
+  failures_to_open: 3
+  open_seconds: 300

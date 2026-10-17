@@ -1,0 +1,19 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# local / build
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules/
+.DS_Store
+
+# demo: real person's details + raw recordings
+demo/persona.json
+demo/out/
+
+# third-party design reference (not ours to redistribute)
+assets/theme/

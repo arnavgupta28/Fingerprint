@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fingerprint demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --cream: #FFF5EA; --coral: #F26B57; --coral-dark: #E0503B; --ink: #1F1F2B; --ink-2: #5A5866; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; }
+  body {
+    font-family: Rubik, system-ui, sans-serif; color: var(--ink);
+    background: radial-gradient(circle at 18% 20%, #FFE3D6 0, transparent 40%),
+                radial-gradient(circle at 85% 85%, #FFD9CF 0, transparent 45%), var(--cream);
+    display: grid; grid-template-columns: 820px 1fr; align-items: center;
+  }
+  .phone-wrap { display: flex; justify-content: center; }
+  .phone {
+    width: 426px; height: 880px; border-radius: 64px; padding: 18px; position: relative;
+    background: #17171F; box-shadow: 0 40px 80px rgba(31,31,43,.28), inset 0 0 0 3px #3A3A48;
+  }
+  .phone::before { /* dynamic island */
+    content: ""; position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+    width: 118px; height: 34px; border-radius: 20px; background: #000; z-index: 3;
+  }
+  .phone::after { /* side button */
+    content: ""; position: absolute; right: -5px; top: 210px; width: 5px; height: 96px; border-radius: 0 4px 4px 0; background: #2A2A36;
+  }
+  .screen { width: 390px; height: 844px; border-radius: 48px; overflow: hidden; background: var(--cream); position: relative; }
+  iframe { width: 390px; height: 844px; border: 0; display: block; }
+  .status { position: absolute; top: 0; left: 0; right: 0; height: 50px; z-index: 2; pointer-events: none;
+    display: flex; justify-content: space-between; align-items: center; padding: 6px 34px 0; font: 600 16px Rubik; color: var(--ink);  transition: background .3s; }
+  .status.solid { background: var(--cream); box-shadow: 0 1px 0 rgba(31,31,43,.06); }
+
+  .side { padding-right: 140px; }
+  .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 56px; }
+  .brand img { width: 64px; height: 64px; }
+  .brand b { font: 700 40px Fredoka; color: var(--coral); }
+  .brand span { font: 500 20px Rubik; color: var(--ink-2); margin-left: 6px; }
+  .step { display: inline-block; font: 600 20px Fredoka; color: #fff; background: var(--coral); border-radius: 999px; padding: 6px 18px; margin-bottom: 22px; }
+  .title { font: 600 66px/1.08 Fredoka; margin: 0 0 22px; }
+  .sub { font: 400 30px/1.4 Rubik; color: var(--ink-2); margin: 0; max-width: 900px; }
+  .caption { transition: opacity .35s ease, transform .35s ease; }
+  .caption.out { opacity: 0; transform: translateY(12px); }
+  .badge { position: absolute; right: 60px; top: 50px; font: 600 22px Fredoka; background: #1F1F2B; color: #fff; border-radius: 999px; padding: 10px 22px; opacity: 0; transition: opacity .3s; }
+  .badge.on { opacity: 1; }
+  .foot { position: absolute; left: 820px; bottom: 54px; font: 400 20px Rubik; color: var(--ink-2); }
+
+  .end { position: fixed; inset: 0; background: var(--coral); color: #fff; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 18px; opacity: 0; pointer-events: none; transition: opacity .6s; z-index: 10; }
+  .end.on { opacity: 1; }
+  .end img { width: 260px; }
+  .end h1 { font: 700 96px Fredoka; margin: 0; }
+  .end p { font: 400 34px Rubik; margin: 0; opacity: .95; }
+</style>
+</head>
+<body>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="screen">
+        <div class="status" id="status"><span>9:41</span><span>▂▄▆ ᯤ ▮</span></div>
+        <iframe id="app" name="app" src="/" title="Fingerprint app"></iframe>
+      </div>
+    </div>
+  </div>
+  <div class="side">
+    <div class="brand"><img src="/assets/logo/icon.svg" alt=""><b>Fingerprint</b><span>live demo</span></div>
+    <div class="caption" id="caption">
+      <div class="step" id="step">1</div>
+      <h2 class="title" id="title">See what the internet knows about you</h2>
+      <p class="sub" id="sub">Before someone else does.</p>
+    </div>
+  </div>
+  <div class="badge" id="badge">⏩ sped up</div>
+  <div class="foot">Live scan · TinyFish Search + Fetch · runs on free tiers · nothing stored</div>
+  <div class="end" id="end">
+    <img src="/assets/mascot/smudge.svg" alt="">
+    <h1>Fingerprint</h1>
+    <p>See your digital footprint, then clean it up.</p>
+  </div>
+<script>
+  window.caption = (step, title, sub) => {
+    const c = document.getElementById("caption");
+    c.classList.add("out");
+    setTimeout(() => {
+      document.getElementById("step").textContent = step;
+      document.getElementById("title").textContent = title;
+      document.getElementById("sub").textContent = sub || "";
+      c.classList.remove("out");
+    }, 350);
+  };
+  window.badge = (text) => {
+    const b = document.getElementById("badge");
+    if (text) { b.textContent = text; b.classList.add("on"); } else b.classList.remove("on");
+  };
+  window.statusSolid = (on) => document.getElementById("status").classList.toggle("solid", on);
+  window.ending = () => document.getElementById("end").classList.add("on");
+</script>
+</body>
+</html>
