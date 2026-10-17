@@ -163,6 +163,14 @@
     </div>
     <div class="chips" id="category-chips"></div>
     <p class="partial" id="partial-note" hidden>Some sources couldn't be checked this time, so results may be incomplete.</p>
+    <div class="sort-row">
+      <label for="sort">Sort by</label>
+      <select id="sort" class="input select sort">
+        <option value="risk">Highest risk first</option>
+        <option value="conf-desc">Most likely you first</option>
+        <option value="conf-asc">Least likely you first</option>
+      </select>
+    </div>
     <ul class="findings" id="findings"></ul>
     <details class="checked">
       <summary>What we checked</summary>
@@ -173,6 +181,61 @@
       <button class="btn btn-dark" id="delete-btn">Delete my data now</button>
     </div>
     <p class="muted small center">Fingerprint shows public information only. It isn't legal advice.</p>
+  </section>
+
+
+  <!-- 7. Delete: guided steps -->
+  <section class="screen" data-screen="delete" hidden>
+    <button class="back" data-go="report" aria-label="Back to report">‹ Back to report</button>
+    <img class="smudge" src="/assets/mascot/smudge.svg" alt="" width="120" height="120">
+    <h2>Delete your data</h2>
+    <p class="muted">Three quick steps. Only step 2 is needed.</p>
+    <ol class="steps">
+      <li class="step-card">
+        <span class="step-num">1</span>
+        <div>
+          <strong>Save your to-do list</strong> <span class="tag">optional</span>
+          <p>Your report disappears once it's deleted. Download a checklist of every site that shows your info and how to remove it. It only contains masked values.</p>
+          <button class="btn btn-ghost btn-small" id="checklist-btn">⬇ Download checklist</button>
+          <p class="hint" id="checklist-done" hidden>Saved ✓</p>
+        </div>
+      </li>
+      <li class="step-card">
+        <span class="step-num">2</span>
+        <div>
+          <strong>Delete from Fingerprint</strong>
+          <p>We erase the details you typed, the scan and every finding from our server right now. Nothing was written to disk or shared.</p>
+          <button class="btn btn-dark btn-small" id="confirm-delete-btn">Delete now</button>
+        </div>
+      </li>
+      <li class="step-card">
+        <span class="step-num">3</span>
+        <div>
+          <strong>Remove it from the web</strong>
+          <p>Deleting here doesn't touch other websites. Work through your checklist, starting with the <b class="red">High</b> items.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 8. Deleted: confirmation + what's next -->
+  <section class="screen" data-screen="deleted" hidden>
+    <div class="done-badge" aria-hidden="true">✓</div>
+    <h2>Your data is deleted</h2>
+    <p class="muted" id="deleted-verify">Checking our server…</p>
+    <div class="note left">
+      <strong>What we erased</strong>
+      <ul id="deleted-list"></ul>
+    </div>
+    <div class="note left">
+      <strong>What's still out there</strong>
+      <p class="small" id="still-out"></p>
+      <ol class="next-steps" id="next-steps"></ol>
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost" id="deleted-checklist-btn">⬇ Checklist</button>
+      <button class="btn" id="new-scan-btn">Start a new scan</button>
+    </div>
   </section>
 
 </main>

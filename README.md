@@ -28,7 +28,8 @@ You enter your **name, phone and city**, plus anything else you choose to share.
 - **What's exposed:** phone, email, address, age, workplace, school, family, profiles, data breaches.
 - **Where:** every finding links to its source with a short, masked quote from the page.
 - **Is it really you?** Every source shows a **confidence score** (*Very likely you · Likely you · Maybe you · Probably not you*) and the reasons behind it. Tap **"Not me"** and the report re-scores itself.
-- **What to do:** a 0–100 exposure score, 🟢🟡🔴 risk labels, and step-by-step removal guides.
+- **What to do:** a 0–100 exposure score, 🟢🟡🔴 risk labels, and step-by-step removal guides. Sort sources by risk or by how likely they're you.
+- **Delete my data, step by step:** download a masked removal checklist, erase the scan from our server (verified on screen), then follow the tailored next steps for the sites that still show your info.
 
 **Nothing is stored.** Scans live in memory for 30 minutes, values are masked on screen, and you can delete everything with one tap.
 

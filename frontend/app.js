@@ -43,6 +43,7 @@ const state = {
   scanId: null,
   report: null,
   filters: { risk: null, categories: new Set() },
+  sort: "risk",
   progress: { stage: "plan", byKind: {} },
   crumbs: 0,
   stream: null,
@@ -282,8 +283,20 @@ function groupBySource(findings) {
     const conf = Math.max(...items.map(effConf));
     const verdict = items.every((i) => i.user_verdict === "me") ? "me" : items.every((i) => i.user_verdict === "not_me") ? "not_me" : null;
     return { items, conf, verdict, risk: items[0].risk, lead: items[0] };
-  }).sort((a, b) => (a.verdict === "not_me") - (b.verdict === "not_me") || RISK_RANK[a.risk] - RISK_RANK[b.risk] || b.conf - a.conf);
+  }).sort(SORTS[state.sort] || SORTS.risk);
 }
+
+// "Not me" sources always sink to the bottom; then the chosen order.
+const notMeLast = (a, b) => (a.verdict === "not_me") - (b.verdict === "not_me");
+const SORTS = {
+  risk: (a, b) => notMeLast(a, b) || RISK_RANK[a.risk] - RISK_RANK[b.risk] || b.conf - a.conf,
+  "conf-desc": (a, b) => notMeLast(a, b) || b.conf - a.conf || RISK_RANK[a.risk] - RISK_RANK[b.risk],
+  "conf-asc": (a, b) => notMeLast(a, b) || a.conf - b.conf || RISK_RANK[a.risk] - RISK_RANK[b.risk],
+};
+$("#sort").addEventListener("change", (e) => {
+  state.sort = e.target.value;
+  renderSources();
+});
 
 function renderReport(report) {
   state.report = report;
@@ -455,12 +468,122 @@ $("#again-btn").addEventListener("click", () => {
   state.report = null;
   show("level");
 });
-$("#delete-btn").addEventListener("click", async () => {
-  if (state.scanId) await fetch(`/api/scan/${state.scanId}`, { method: "DELETE" }).catch(() => {});
+// ── delete my data: guided steps ──────────────────────────────────────────
+$("#delete-btn").addEventListener("click", () => {
+  $("#checklist-done").hidden = true;
+  show("delete");
+});
+
+function buildChecklist(report) {
+  const groups = groupBySourceSorted(report.findings, SORTS.risk).filter((g) => g.verdict !== "not_me");
+  const lines = [
+    "Fingerprint: your removal checklist",
+    `Scan from ${new Date(report.started_at).toLocaleString()} · exposure ${report.score}/100 (${report.score_label})`,
+    "Values are masked. Open each link, find your details, and follow the steps.",
+    "",
+  ];
+  const low = groups.filter((g) => g.risk === "green");
+  groups.filter((g) => g.risk !== "green").forEach((g, i) => {
+    const lead = g.lead;
+    const fix = g.items.find((x) => x.risk === g.risk)?.removal || lead.removal;
+    lines.push(`${i + 1}. [${{ red: "HIGH", amber: "MEDIUM", green: "LOW" }[g.risk]}] ${lead.category === "breach" ? lead.label : lead.source_name}`
+      + ` · ${Math.round(g.conf * 100)}% likely you`);
+    lines.push(`   Shows: ${g.items.map((x) => `${SHORT[x.type] || x.type}${["profile", "listing", "mention", "document", "username"].includes(x.type) ? "" : " " + x.value_masked}`).join(", ")}`);
+    if (/^https?:\/\//.test(lead.source_url)) lines.push(`   Link: ${lead.source_url}`);
+    lines.push(`   How to fix (${fix.title}):`);
+    fix.steps.forEach((st, j) => lines.push(`     ${j + 1}) ${st}`));
+    lines.push("   [ ] done", "");
+  });
+  if (low.length) {
+    lines.push(`Low-risk mentions (${low.length}): usually fine to leave; review if you like.`);
+    low.forEach((g) => lines.push(`   - ${g.lead.source_name}${/^https?:\/\//.test(g.lead.source_url) ? ": " + g.lead.source_url : ""}`));
+    lines.push("");
+  }
+  lines.push("Tip: scan again in a month. People-finder sites often re-list removed entries.");
+  return lines.join("\n");
+}
+
+const groupBySourceSorted = (findings, cmp) => groupBySource(findings).sort(cmp);
+
+function downloadChecklist(text) {
+  const url = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
+  const a = Object.assign(document.createElement("a"), { href: url, download: "fingerprint-checklist.txt" });
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("#checklist-btn").addEventListener("click", () => {
+  if (!state.report) return;
+  downloadChecklist(buildChecklist(state.report));
+  $("#checklist-done").hidden = false;
+});
+
+$("#confirm-delete-btn").addEventListener("click", async () => {
+  const report = state.report;
+  const sid = state.scanId;
+  const btn = $("#confirm-delete-btn");
+  btn.disabled = true;
+  state.checklist = report ? buildChecklist(report) : null;   // kept in this tab only, for the next screen
+
+  let erased = false;
+  try {
+    const res = sid ? await fetch(`/api/scan/${sid}`, { method: "DELETE" }) : null;
+    // Verify: the server must no longer know this scan.
+    const check = sid ? await fetch(`/api/scan/${sid}/report`) : null;
+    erased = !!res && (res.ok || res.status === 404) && !!check && check.status === 404;
+  } catch {
+    erased = false;
+  } finally {
+    btn.disabled = false;
+  }
+
+  renderDeleted(report, erased);
   state.scanId = null;
   state.report = null;
   state.filters = { risk: null, categories: new Set() };
   $("#details-form").reset();
   $("#full_name").value = "";
+  $("#findings").replaceChildren();
+  show("deleted");
+});
+
+function renderDeleted(report, erased) {
+  $("#deleted-verify").textContent = erased
+    ? "Verified: our server no longer has your scan."
+    : "We asked the server to delete your scan, but couldn't confirm it. It expires automatically within 30 minutes anyway.";
+  const live = report ? report.findings.filter((f) => f.user_verdict !== "not_me") : [];
+  const sources = report ? groupBySource(report.findings).filter((g) => g.verdict !== "not_me") : [];
+  $("#deleted-list").replaceChildren(
+    ...["The details you typed (name, phone, city and any extras)",
+        `Your report: ${report ? report.findings.length : 0} findings and your exposure score`,
+        "The live scan log and your “Is this you?” answers"]
+      .map((t) => Object.assign(document.createElement("li"), { textContent: t }))
+  );
+  const reds = sources.filter((g) => g.risk === "red").length;
+  $("#still-out").textContent = sources.length
+    ? `${sources.length} website${sources.length === 1 ? "" : "s"} still show your info${reds ? `, ${reds} of them high-risk` : ""}. Deleting here doesn't change other sites, so here's where to start:`
+    : "We didn't find anything clearly about you. Scan again from time to time to stay on top of it.";
+
+  // Most important removal guides first, by how many high-risk sources each one fixes.
+  const byPlaybook = new Map();
+  for (const f of live) {
+    const k = f.removal.playbook;
+    const e = byPlaybook.get(k) || { title: f.removal.title, first: f.removal.steps[0], n: 0, score: 0 };
+    e.n += 1;
+    e.score += { red: 100, amber: 10, green: 1 }[f.risk];
+    byPlaybook.set(k, e);
+  }
+  const steps = [...byPlaybook.values()].sort((a, b) => b.score - a.score).slice(0, 4)
+    .map((e) => `${e.title} (${e.n} item${e.n === 1 ? "" : "s"}): ${e.first}`);
+  steps.push("Scan again in a month. People-finder sites often re-list removed entries.");
+  $("#next-steps").replaceChildren(...steps.map((t) => Object.assign(document.createElement("li"), { textContent: t })));
+  $("#deleted-checklist-btn").hidden = !state.checklist;
+}
+
+$("#deleted-checklist-btn").addEventListener("click", () => state.checklist && downloadChecklist(state.checklist));
+$("#new-scan-btn").addEventListener("click", () => {
+  state.checklist = null;
   show("splash");
 });
