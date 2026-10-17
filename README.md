@@ -131,3 +131,7 @@ More: [aim.md](aim.md) (plain-English aim) · [HACKATHON.md](HACKATHON.md) · [P
 ---
 
 <p align="center"><sub>Fingerprint shows public information only. It isn't legal advice. Built for the Ignite Room hackathon.</sub></p>
+
+## License
+
+Fingerprint is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE). You are free to read, run, modify and share the code for personal, research, educational and other noncommercial purposes. **Commercial use is not permitted** without my written permission. For a commercial license, open an issue or reach out via [GitHub](https://github.com/arnavgupta28).
