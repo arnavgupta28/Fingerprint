@@ -6,11 +6,19 @@
 A self-scan for your digital footprint: what's public about you, where it lives, how likely it's really you, and how to remove it.</p>
 
 <p align="center">
-  <a href="docs/media/fingerprint-demo.mp4"><img src="docs/images/demo-thumbnail.png" width="820" alt="Watch the Fingerprint demo video"></a><br>
-  <a href="docs/media/fingerprint-demo.mp4"><b>▶ Watch the 1-minute demo</b></a>
+  <a href="https://fingerprint-pl6x.onrender.com"><img src="https://img.shields.io/badge/Try_it_live-fingerprint--pl6x.onrender.com-F26B57?style=for-the-badge" alt="Try Fingerprint live"></a>
+  <a href="https://youtu.be/Hvk0eetAfXI"><img src="https://img.shields.io/badge/Watch_demo-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch the demo on YouTube"></a>
 </p>
 
-youtube : https://youtu.be/Hvk0eetAfXI
+<p align="center">
+  <a href="https://youtu.be/Hvk0eetAfXI" title="Watch the Fingerprint demo on YouTube">
+    <img src="https://img.youtube.com/vi/Hvk0eetAfXI/maxresdefault.jpg" width="820" alt="Fingerprint demo video: click to watch on YouTube">
+  </a><br>
+  <sub>▶ Click the thumbnail to watch the 1-minute demo on YouTube · <a href="docs/media/fingerprint-demo.mp4">download the MP4</a></sub>
+</p>
+
+> **Live app:** https://fingerprint-pl6x.onrender.com. It runs on Render's free tier, so the first visit after a quiet spell can take about a minute to wake up.
+
 ---
 
 ## What it does
@@ -92,7 +100,9 @@ Settings (budgets, timeouts, rate limit) are in [`config.yaml`](config.yaml); so
 
 ## Deploy (free)
 
-The repo includes a [`Dockerfile`](Dockerfile) and a Render blueprint ([`render.yaml`](render.yaml)). On Render, choose **New → Blueprint**, pick this repo, and set `TINYFISH_API_KEY` in the dashboard. Free instances sleep after 15 minutes idle, so open `/health` before a demo.
+**Live:** https://fingerprint-pl6x.onrender.com · health check: https://fingerprint-pl6x.onrender.com/health
+
+It runs as a single service: one Docker container where FastAPI serves both the API (`/api/*`) and the frontend (`/`). The repo includes a [`Dockerfile`](Dockerfile) and a Render blueprint ([`render.yaml`](render.yaml)). On Render, choose **New → Blueprint**, pick this repo, and enter `TINYFISH_API_KEY` and `AGENT_ENABLED` (`true` or `false`) when asked. Every push to `main` redeploys. Free instances sleep after 15 minutes idle, so open `/health` before a demo.
 
 ## Record the demo video
 
