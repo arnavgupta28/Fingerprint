@@ -10,6 +10,7 @@ A self-scan for your digital footprint: what's public about you, where it lives,
   <a href="docs/media/fingerprint-demo.mp4"><b>▶ Watch the 1-minute demo</b></a>
 </p>
 
+youtube : https://youtu.be/Hvk0eetAfXI
 ---
 
 ## What it does
